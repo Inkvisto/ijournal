@@ -1,0 +1,16 @@
+.container{
+    display: flex;
+    justify-content: center;
+}
+
+.block{
+    background-color: white;
+    width: 45vw;
+    height: 75vh;
+    display: flex;
+    margin: 4%;
+    border-radius: 10px;
+    position: relative;
+    
+    z-index: 0;
+}

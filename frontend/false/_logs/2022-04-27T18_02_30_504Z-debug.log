@@ -1,0 +1,40 @@
+0 info it worked if it ends with ok
+1 verbose cli [
+1 verbose cli   'C:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'run',
+1 verbose cli   'lint',
+1 verbose cli   '--no-cache'
+1 verbose cli ]
+2 info using npm@6.14.15
+3 info using node@v14.17.6
+4 verbose run-script [ 'prelint', 'lint', 'postlint' ]
+5 info lifecycle portfolio-project@0.1.0~prelint: portfolio-project@0.1.0
+6 info lifecycle portfolio-project@0.1.0~lint: portfolio-project@0.1.0
+7 verbose lifecycle portfolio-project@0.1.0~lint: unsafe-perm in lifecycle true
+8 verbose lifecycle portfolio-project@0.1.0~lint: PATH: C:\Program Files\nodejs\node_modules\npm\node_modules\npm-lifecycle\node-gyp-bin;C:\Users\oleyn\Desktop\Resume\portfolio-project\node_modules\.bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\nodejs\;C:\Program Files\dotnet\;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\PostgreSQL\13\bin\;C:\Users\oleyn\AppData\Local\Microsoft\WindowsApps;C:\Users\oleyn\AppData\Roaming\npm;C:\Users\oleyn\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\oleyn\.dotnet\tools;C:\Users\oleyn\AppData\Local\GitHubDesktop\bin;
+9 verbose lifecycle portfolio-project@0.1.0~lint: CWD: C:\Users\oleyn\Desktop\Resume\portfolio-project
+10 silly lifecycle portfolio-project@0.1.0~lint: Args: [ '/d /s /c', 'next lint' ]
+11 silly lifecycle portfolio-project@0.1.0~lint: Returned: code: 1  signal: null
+12 info lifecycle portfolio-project@0.1.0~lint: Failed to exec lint script
+13 verbose stack Error: portfolio-project@0.1.0 lint: `next lint`
+13 verbose stack Exit status 1
+13 verbose stack     at EventEmitter.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\npm-lifecycle\index.js:332:16)
+13 verbose stack     at EventEmitter.emit (events.js:400:28)
+13 verbose stack     at ChildProcess.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\npm-lifecycle\lib\spawn.js:55:14)
+13 verbose stack     at ChildProcess.emit (events.js:400:28)
+13 verbose stack     at maybeClose (internal/child_process.js:1055:16)
+13 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:288:5)
+14 verbose pkgid portfolio-project@0.1.0
+15 verbose cwd C:\Users\oleyn\Desktop\Resume\portfolio-project
+16 verbose Windows_NT 10.0.22000
+17 verbose argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "run" "lint" "--no-cache"
+18 verbose node v14.17.6
+19 verbose npm  v6.14.15
+20 error code ELIFECYCLE
+21 error errno 1
+22 error portfolio-project@0.1.0 lint: `next lint`
+22 error Exit status 1
+23 error Failed at the portfolio-project@0.1.0 lint script.
+23 error This is probably not a problem with npm. There is likely additional logging output above.
+24 verbose exit [ 1, true ]

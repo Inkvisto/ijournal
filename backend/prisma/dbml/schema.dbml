@@ -1,0 +1,86 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table User {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  email String [unique, not null]
+  password String [not null]
+  username String [not null]
+  posts Posts [not null]
+  comments Comment [not null]
+  categories Category [not null]
+  role Role [not null]
+  refresh String
+  avatar String
+}
+
+Table Posts {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  published Boolean [not null]
+  title String [not null]
+  content String [not null]
+  author User [not null]
+  authorId String [not null]
+  likes Int [not null, default: 0]
+  categories CategoriesOnPosts [not null]
+  comments Comment [not null]
+}
+
+Table Category {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  name String [not null]
+  subscribers Int [not null, default: 0]
+  posts CategoriesOnPosts [not null]
+  authorId String [not null]
+  image String [not null]
+  author User
+}
+
+Table Comment {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  likes Int [not null, default: 0]
+  authorId String [not null]
+  author User [not null]
+  content String [not null]
+  postId String [not null]
+  posts Posts [not null]
+}
+
+Table CategoriesOnPosts {
+  post Posts [not null]
+  postId String [not null]
+  category Category [not null]
+  categoryId String [not null]
+  assignedAt DateTime [default: `now()`, not null]
+  assignedBy String [not null]
+
+  indexes {
+    (postId, categoryId) [pk]
+  }
+}
+
+Enum Role {
+  ADMIN
+  USER
+}
+
+Ref: Posts.authorId > User.id
+
+Ref: Category.authorId > User.id
+
+Ref: Comment.authorId > User.id
+
+Ref: Comment.postId > Posts.id
+
+Ref: CategoriesOnPosts.postId > Posts.id
+
+Ref: CategoriesOnPosts.categoryId > Category.id

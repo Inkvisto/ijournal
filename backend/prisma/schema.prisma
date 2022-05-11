@@ -1,0 +1,81 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator dbml {
+  provider   = "prisma-dbml-generator"
+}
+
+model User {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  email       String   @unique
+  password    String
+  username    String
+  posts       Posts[]
+  comments    Comment[] 
+  categories  Category[]
+  role        Role
+  refresh     String? 
+  avatar      String? 
+}
+
+model Posts {
+  id         String    @id @default(cuid())
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  published  Boolean
+  title      String
+  content    String
+  author     User      @relation(fields: [authorId], references: [id])
+  authorId   String
+  likes      Int       @default(0)
+  categories CategoriesOnPosts[]
+  comments   Comment[]
+}
+
+model Category {
+  id          String              @id @default(cuid())
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  name        String
+  subscribers Int                 @default(0)
+  posts       CategoriesOnPosts[]  
+  authorId    String 
+  image       String
+  author      User?               @relation(fields: [authorId], references: [id])
+}
+
+model Comment {
+  id        String            @id @default(cuid())
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+  likes     Int               @default(0)
+  authorId  String
+  author    User              @relation(fields: [authorId], references: [id])
+  content   String[]
+  postId    String
+  posts     Posts             @relation(fields: [postId], references: [id])
+}
+
+model CategoriesOnPosts {
+  post       Posts    @relation(fields: [postId], references: [id])
+  postId     String // relation scalar field (used in the `@relation` attribute above)
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId String // relation scalar field (used in the `@relation` attribute above)
+  assignedAt DateTime @default(now())
+  assignedBy String
+
+  @@id([postId, categoryId])
+}
+
+enum Role {
+  ADMIN
+  USER
+}

@@ -1,0 +1,21 @@
+.block{
+    background-color: white;
+    width: 1020px;
+ display: flex;
+    margin-bottom: 40px;
+    padding: 20px;
+   margin-top: -1%;
+    margin-left: -15%;
+    overflow: hidden;
+    transition: max-height 500ms;
+    justify-content: center;
+    li{
+        min-width: 100%;
+        list-style-type: none;
+    }
+}
+
+.main{
+ 
+    width: 600px;
+}

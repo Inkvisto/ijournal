@@ -1,0 +1,66 @@
+.container{
+    height: 1000px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 0.2fr 2.5fr 1fr 0.6fr;
+    grid-auto-rows: 0.5fr 1fr 1fr;
+    grid-column-gap: 10px;
+   grid-row-gap: 1em;
+}
+
+
+.sticky{
+    height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    grid-column-start: 1;
+    grid-column-end: 6;
+    grid-row: 1;
+
+}
+.sidebar {
+  position: sticky;
+  top: 75px;
+  grid-column: 1;
+  grid-row: 2;
+  max-width: 210px;
+}
+
+.main{
+    grid-column: 3;
+    grid-row: 1;
+    margin-left:15%;
+    margin-top: 7%;
+}
+.postPageMain{
+    grid-column: 3;
+    grid-row: 1;
+    margin-top: 6%;
+    margin-left: 4%;
+}
+
+
+.sidebarComments{
+    grid-column: 5;
+    grid-row: 2;
+    position: fixed;
+    top:75px;
+    right: 2vw;
+    z-index: 1;
+}
+
+.groupPage{
+    grid-column: 3;
+    grid-row: 1;
+}
+
+.postComments{
+    grid-column: 3;
+    grid-row: 3;
+}
+
+.writeContainer{
+    height: 100vh;
+    width: 100%;
+}

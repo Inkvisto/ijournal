@@ -1,0 +1,30 @@
+.container{
+    width: 15vw;
+    margin-top: 10%;
+}
+
+.user{
+    display: flex;
+    align-items: center;
+}
+.avatar{
+    border-radius: 10px;
+    width: 30px;
+    height: 30px;
+}
+
+.userName{
+    margin-left: 5px;
+    font-family: Roboto;
+}
+
+.commentText{
+    word-break: break-all;
+    font-family: Roboto;
+}
+
+.list{
+    margin: 15px;
+    margin-left: 0px;
+    list-style-type: none;
+}

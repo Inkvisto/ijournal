@@ -1,0 +1,89 @@
+.container{
+    display: flex;
+    align-items: flex-start;
+   
+}
+
+
+
+
+.main{
+   
+    width: 82%;
+   margin:170px 25px 0px 30px;
+   position: relative;
+    button{
+        box-shadow: 0 1px 1px rgb(0 0 0 / 8%), inset 0 0 0 1px rgb(0 0 0 / 6%), inset 0 -1px 0 rgb(0 0 0 / 12%), inset 1px 0 0 rgb(0 0 0 / 6%), inset -1px 0 0 rgb(0 0 0 / 6%);;
+        position: relative;
+        svg{
+            position: absolute;
+            left: 10px;
+            width: 24px;
+            height: 24px;
+        }
+    }
+    
+}
+.join{
+    position: absolute;
+    top:120px;
+    left:305px;
+    font-weight: 500;
+    font-size: 20px;
+}
+
+.backButton{
+    display: flex;
+    align-items: center;
+    width: 160px;
+    font-size: 16px !important;
+    cursor:pointer;
+    position: absolute;
+    top:15px;
+    left:290px;
+    &:hover{
+        color: #346eb8;
+    }
+}
+
+.emailContainer{
+    display: flex;
+}
+
+.emailCross{
+    position: absolute;
+    top:12px;
+    right: 12px;
+    cursor: pointer;
+    opacity: 0.5;
+    &:hover{
+        opacity: 1;
+    }
+}
+
+
+.footer{
+   
+   position: absolute;
+    top:340px;
+    margin-left: -20px;
+    padding: 20px 30px;
+    border-top: 1px solid #f0f0f0;
+    font-size: 14px;
+    color: #595959;
+}
+
+.footerLink{
+    border-bottom: 1px solid rgba(89,89,89,0.3);
+}
+
+
+.image{
+ 
+   span{
+       width: 250px  !important;
+       height: 600px !important;
+   }
+   
+  
+}

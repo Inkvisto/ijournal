@@ -1,0 +1,36 @@
+
+
+.commentsButton{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    button{
+     font-size: 20px;
+   }
+}
+.rotateComments{
+    transform: rotate(-90deg) translateX(-50px);
+    transform-origin: right;
+    svg{
+    rotate: 90deg ;
+    }
+}
+
+.list{
+    height: 100px;
+    list-style-type: none;
+    p{
+        display: flex;
+        align-items: center;
+       p{
+        padding-left: 10px;
+       }
+    }
+
+}
+
+.content{
+    position: relative;
+    top: 10px;
+}
+
