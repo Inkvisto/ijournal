@@ -1,0 +1,43 @@
+.container{
+    z-index: 1;
+}
+
+.textField{
+    resize: none;
+    outline: none;
+   width: 400px;
+    border:none;
+    height: 47px;
+    overflow-y: hidden;
+    word-wrap: break-word;
+   
+        font-size: 28px;
+    
+    &:before,&:after {
+        display: none;
+    }
+   
+    margin: 7%;
+}
+
+.editor{
+    font-size: 18px;
+    margin-left: 7%;
+    height: 42vh;
+    width: 720px;
+    overflow-x:hidden;
+    text-overflow:clip;
+    word-wrap: break-word;
+    &::-webkit-scrollbar {
+        width: 10px;
+      }
+      
+}
+
+.buttons{
+    display: flex;
+    width: 865px;
+
+    justify-content: space-around;
+   
+}

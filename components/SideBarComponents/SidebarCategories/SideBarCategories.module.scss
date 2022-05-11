@@ -1,0 +1,25 @@
+.container{
+   
+    span{
+        font-size: 16px;
+    }
+   
+}
+
+
+.button{
+    display: flex;
+    align-items: center;
+    border: none;
+    background:inherit;
+    font-size: 14px;
+    font-family: Roboto;
+    cursor: pointer;
+}
+
+
+
+.rotateArrow{
+    transform: rotate(180deg);
+
+}

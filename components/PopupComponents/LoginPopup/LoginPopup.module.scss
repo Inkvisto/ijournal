@@ -1,0 +1,46 @@
+.container{
+    margin-top: -65px;
+
+}
+.emailLogin{
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    Button:nth-of-type(2){
+        margin-left: 10px;
+    }
+}
+
+.registerButtonText{
+    margin-left: 10px;
+    font-size: 18px;
+    font-weight: 500;
+}
+.registerButton{
+
+    color:#3f51b5;
+    margin-bottom: 5px;
+    cursor:pointer;
+
+            &:hover{
+                color:#FF0000 ;
+            }
+}
+
+.forgetPassword{
+    margin-bottom: 5px;
+    border-bottom: 1px rgba(89,89,89,0.5) dotted;
+    &:hover {
+        color: #cd192e;
+        border-bottom-color: rgba(205,25,46,0.5);
+    }
+    cursor:pointer;
+}
+
+.alert{
+    width: 200px;
+    height: 50px;
+    margin-top: 20px;
+    border-radius: 10px;
+}

@@ -1,0 +1,21 @@
+.container{
+    width: 80%;
+    position: relative;
+    background-color: #f7f7f7;
+    border: 1px solid rgba(0,0,0,.03);
+    margin-top: 15px;
+    border-radius: 10px;
+    padding: 10px 17px !important;
+    margin-bottom: 30px;
+}
+
+.addComment{
+    &:after,&:before {
+        display: none;
+    }
+    cursor: pointer !important;
+}
+
+.addButton{
+   margin-top: 10px !important;
+}

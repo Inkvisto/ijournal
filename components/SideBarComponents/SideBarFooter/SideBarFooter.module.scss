@@ -1,0 +1,57 @@
+.container{
+   position: fixed;
+   bottom:0;
+ ul{
+    list-style-type: none;
+ }
+   margin-left: 10px;
+   li{
+       font-size: 14px;
+       color:#000000BF;
+       margin-top: 10px;
+    &:nth-child(2){
+        float:left;
+        padding-right: 10px;
+    }
+    &:nth-child(4){
+        float:left;
+        padding-right: 10px;
+    }
+   }
+}
+
+.animationContainer{
+    position: relative;
+    bottom:0;
+  ul{
+     list-style-type: none;
+  }
+    margin-left: 10px;
+    li{
+        font-size: 14px;
+        color:#000000BF;
+        margin-top: 10px;
+     &:nth-child(2){
+         float:left;
+         padding-right: 10px;
+     }
+     &:nth-child(4){
+         float:left;
+         padding-right: 10px;
+     }
+    }
+ }
+
+.iconList{
+    cursor: pointer;
+    display: flex;
+    
+        margin: 0 !important;
+ 
+    li{
+        color:#2c2b2bbf;
+    }
+    svg{
+        margin-left:10px;
+    }
+}
