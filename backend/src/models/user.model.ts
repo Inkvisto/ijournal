@@ -19,7 +19,12 @@ registerEnumType(Role, {
 @ObjectType()
 export class UserModel  {
   @Field(type=> ID)
+  @Exclude()
   id: string;
+  @Field()
+  createdAt:Date;
+  @Field()
+  updatedAt:Date;
   @Field()
   email: string;
   @Field()
@@ -33,8 +38,10 @@ export class UserModel  {
   password: string;
   @Exclude()
   refresh:string;
+  @Field()
+  avatar:string;
 
-  constructor(user: Partial<UserModel> | User,token?:Partial<Token>) {
-    Object.assign(this, user, token);
+  constructor(user: User) {
+    Object.assign(this, user);
   }
 }

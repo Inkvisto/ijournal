@@ -10,15 +10,24 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import styles from './Header.module.scss';
 import Link from 'next/link';
 
+import { $user } from '../../effector/$user';
+import { useStore } from 'effector-react';
+import { User } from '../../utils/api/user/user.types';
+import { UserApi } from '../../utils/api/user/user';
 
-const ProfileMenu = () => {
+
+
+interface ProfileMenuProps {
+user:any,
+logOut:()=>void
+}
+
+
+const ProfileMenu = ({user,logOut}:ProfileMenuProps) => {
     const [userInfoMenu,setUserInfoMenu] = React.useState<null | HTMLElement>(null)
 
     const openUserInfoMenu = Boolean(userInfoMenu)
-
-    const user = useTypedSelector(state=>state.user)
-    const username = user.user.username
-
+   
     const handleClickUserMenu = (event: React.MouseEvent<HTMLElement>) => {
       setUserInfoMenu(event.currentTarget)
     }
@@ -27,13 +36,17 @@ const ProfileMenu = () => {
       setUserInfoMenu(null)
     }
 
-  
+    const logout = async() => {
+        logOut()
+        await UserApi.logout()
+    }
+
 
     return(
     <div style={{display:'flex',alignItems:'center'}}>
-      <Link href={`user/${user.user.id}-${username}`}>
+      <Link href={`profile/${user.id}-${user.username}`}>
       <Avatar sx={{ bgcolor: '#6573c3',borderRadius:'7px' }} variant="square">
-        {username.charAt(0)}
+        {user.username.charAt(0)}
       </Avatar>
       </Link>
       <Menu
@@ -128,7 +141,7 @@ const ProfileMenu = () => {
       >
         <div style={{fontSize:'14px',marginLeft:'15px',marginBottom:'10px'}}>Profile</div>
           <MenuItem>
-            <Avatar variant="square">{username.charAt(0)}</Avatar><b>{username}</b>
+            <Avatar variant="square">{user.username.charAt(0)}</Avatar><b>{user.username}</b>
           </MenuItem>
           <MenuItem>
             <BookmarkBorderIcon color='disabled'/><span style={{color:'rgb(129, 129, 129)'}}>Bookmarks</span>
@@ -137,7 +150,7 @@ const ProfileMenu = () => {
             <SettingsIcon color='disabled' />
             <span>Settings</span>
           </MenuItem>
-          <MenuItem>
+          <MenuItem onClick={logout}>
             <LogoutIcon />
             <div>Exit</div>
           </MenuItem>

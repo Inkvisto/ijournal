@@ -28,7 +28,7 @@ const minio = config().minio
   ],
   providers: [MinioClientService,FileUploadService],
   controllers:[MinioClientController],
-  exports:[MinioClientService]
+  exports:[MinioClientService,FileUploadService]
 })
 export class MinioClientModule {}
   

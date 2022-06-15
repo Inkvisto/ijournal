@@ -1,4 +1,4 @@
-import { Body, ClassSerializerInterceptor, Controller, Get, HttpCode, HttpException, HttpStatus, NotFoundException, Post, Req, Res, SerializeOptions, UseGuards, UseInterceptors } from "@nestjs/common";
+import { Body, ClassSerializerInterceptor, Controller, Get, HttpCode, HttpException, HttpStatus, NotFoundException, Post, Req, Res, SerializeOptions, UnauthorizedException, UseGuards, UseInterceptors } from "@nestjs/common";
 import { User } from "@prisma/client";
 import { Response } from "express";
 import RequestWithUser from "src/models/interfaces/requestWithUser.interface";
@@ -12,6 +12,8 @@ import { UserModule } from "src/user/user.module";
 import { AuthService } from "src/auth/services/auth.service";
 import { UserService } from "src/user/user.service";
 import JwtRefreshGuard from "../guards/refresh-auth.guard";
+import { UserEntity } from "src/decorators/user.decorator";
+import { UserInput } from "src/models/inputs/user-inputs/user.input";
 
 
 @Controller('auth')
@@ -30,45 +32,50 @@ import JwtRefreshGuard from "../guards/refresh-auth.guard";
         @UseGuards(LocalAuthGuard)
         @Post('login')
         
-         async login(@Body() user:User,@Req() request:RequestWithUser,@Res({ passthrough: true }) response) {
+         async login(@UserEntity() user:UserModel,@Body() userPayload:UserInput,@Res({ passthrough: true }) response:Response) {
          
           const cookies = await this.authService.login(
-           user.email,user.password
+            userPayload.email,userPayload.password
           )
+
+          await this.authService.setCurrentRefreshToken(cookies.refreshToken,user.id);
+
 
           response
           .cookie('accessToken',cookies.accessToken,{
             httpOnly:true,
             domain:'localhost',
-            expires:new Date(Date.now()+1000*60*60*24)
+            expires:new Date(Date.now()+1000 * 60 * 15)
           })
+
+          response
+          .cookie('refreshToken',cookies.refreshToken,{
+            httpOnly:true,
+            domain:'localhost',
+            expires:new Date(Date.now()+1000*60*60*24*15)
+          })
+    
         
-  
-          
-          await this.userService.setCurrentRefreshToken(cookies.refreshToken, request.user.id);
-  
-       
-          return new UserModel(request.user,cookies)
+        
+          return new UserModel(user)
 
         }
 
       @UseGuards(JwtRefreshGuard)
         @Get('/refresh')
-        refresh(@Req() request,@Res({ passthrough: true }) response) {
+        refresh(@UserEntity() user:UserModel, @Res({ passthrough: true }) response:Response ){
+
         
-         
-       const accessTokenCookie = this.authService.refreshToken(request.cookies.refreshToken)
-  
-     
-        
+       const accessToken = this.authService.generateAccessToken({ userId: user.id })
+       
         response
-        .cookie('accessToken',accessTokenCookie.accessToken,{
+        .cookie('accessToken',accessToken ,{
           httpOnly:true,
           domain:'localhost',
-          expires:new Date(Date.now()+1000*60*60*24)
+          expires:new Date(Date.now()+1000 * 60 * 15)
         })
 
-        return request.user;
+        return new UserModel(user)
       }
 
 
@@ -87,10 +94,10 @@ import JwtRefreshGuard from "../guards/refresh-auth.guard";
         @HttpCode(200)
         @UseGuards(JwtAuthGuard)
         @Post('/logout')
-        async logout(@Req() request: RequestWithUser, @Res() response: Response) {
-          request.res.setHeader('Set-Cookie', this.authService.logout());
+        async logout(@UserEntity() user: UserModel, @Res() response: Response) {
+          await this.authService.removeRefreshToken(user.id)
+          response.setHeader('Set-Cookie', this.authService.logout());
           response.end()
-         
         }
       
         

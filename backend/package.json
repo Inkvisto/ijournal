@@ -50,7 +50,7 @@
     "docker:migrate": "docker-compose -f docker-compose.migrate.yml up -d",
     "docker:db": "docker-compose -f docker-compose.db.yml up -d",
     "docker:seed": "docker exec -it nest-api npm run seed",
-    "docker": "docker-compose -f docker-compose.yml -f docker-compose.minio.yml up",
+    "docker": "sudo docker-compose -f docker-compose.yml -f docker-compose.minio.yml up",
     "docker:build": "docker-compose build"
   },
   "dependencies": {

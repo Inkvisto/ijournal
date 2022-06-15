@@ -18,6 +18,11 @@ import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import ProfileMenu from './ProfileMenu';
 import { Button, InputBase, LinearProgress, Toolbar } from '@mui/material';
 import { useTypedSelector } from '../../redux/hooks';
+import { useStore } from 'effector-react';
+import { $user, getUser } from '../../effector/$user';
+import { User } from '../../utils/api/user/user.types';
+import { UserApi } from '../../utils/api/user/user';
+import { PostApi } from '../../utils/api/post/posts';
 
 
 
@@ -34,9 +39,6 @@ const Header = ({menuClick}:HeaderProps) => {
   const [progressLoad,setProgressLoad] = React.useState(0)
 
 
-
- 
-
   const handleLoginOpen = () => {
     setpopupVisible(true);
   };
@@ -45,9 +47,55 @@ const Header = ({menuClick}:HeaderProps) => {
     setpopupVisible(false);
   };
 
+  const [loginValue, setLoginValue] = React.useState<JSX.Element | null>(null)
+
    React.useEffect(()=>{
+   UserApi.getUser()
+    .then((response:User)=>{   
+      getUser(response)
+      setLoginValue(
+  
+        <ProfileMenu user={response} logOut={logout} />
+     )
+    })
+    .catch((e)=>{
+      UserApi.refresh()
+      .then((response:User)=>{
+        setLoginValue(
+  
+          <ProfileMenu user={response} logOut={logout} />
+       )
+      })
+      .catch((e)=>{
+        console.warn(e)
+      })
+
+      setLoginValue(
+        <div className={styles.loginPanel} onClick={handleLoginOpen}>
+        <AccountCircleOutlinedIcon />
+        <div className={styles.login}>Login</div>
+        </div>
+      );
+    })
     setProgressLoad(100)
   },[])
+
+const loginSuccess = ((user:User)=>{
+  getUser(user)
+  setLoginValue(<ProfileMenu user={user} logOut={logout} />)
+  handleLoginClose()
+ })
+
+ const logout = () => {
+  setLoginValue(
+    <div className={styles.loginPanel} onClick={handleLoginOpen}>
+    <AccountCircleOutlinedIcon />
+    <div className={styles.login}>Login</div>
+    </div>
+  );
+ }
+
+
 
 
   const searchEnter = (e:KeyboardEvent<HTMLInputElement>) => {
@@ -57,7 +105,7 @@ const Header = ({menuClick}:HeaderProps) => {
 
       try{
 
-        (async()=>{await Api().post.search(e.currentTarget.value)})()
+        (async()=>{await PostApi.search(e.currentTarget.value)})()
 
       }
 
@@ -69,11 +117,6 @@ const Header = ({menuClick}:HeaderProps) => {
     }
   }
 
-  const userData = useTypedSelector(state=>state.user)
-
-
-
-  const username = userData.user.username
 
 
   return (
@@ -113,22 +156,18 @@ const Header = ({menuClick}:HeaderProps) => {
           <div className={styles.sectionNotification}>
             <NotificationsNoneIcon />
           </div>
-         {username !== '' ? 
-            (<ProfileMenu />)
-          :( 
-            <div className={styles.loginPanel} onClick={handleLoginOpen}>
-            <AccountCircleOutlinedIcon />
-            <div className={styles.login}>Login</div>
-            </div>
-          )}
+         {loginValue}
         </div>
       </Toolbar>
       <div className={styles.progress}>
         <LinearProgress  variant="determinate" value={progressLoad} style={{ height: '1px', color: 'rgb(255,69,0)' }} />
       </div>
-      <PopupContainer onClose={handleLoginClose} visible={popupVisible} />
+      <PopupContainer onClose={handleLoginClose} visible={popupVisible} loginSuccess={loginSuccess} />
     </div>
   );
+
+
+ 
 }
 
 

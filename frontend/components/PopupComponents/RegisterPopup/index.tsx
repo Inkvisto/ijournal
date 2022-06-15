@@ -1,6 +1,5 @@
-import React, { MutableRefObject, Ref } from 'react';
+import React from 'react';
 import ReCAPTCHA from 'react-google-recaptcha'
-import { setCookie } from 'nookies';
 import styles from './RegisterPopup.module.scss'
 import LoginSchema from '../../../utils/shemas/loginValidation'
 import { useForm} from 'react-hook-form';
@@ -10,12 +9,14 @@ import { ErrorMessage } from "@hookform/error-message";
 import {
     DialogActions,
     Button,
-    TextField 
+    TextField, 
+    Alert
   } from '@mui/material';
-import { UserApi } from '../../../utils/api/user/user';
 import axios, { AxiosError } from 'axios';
 import { Api } from '../../../utils/api';
 import { RegisterUserDto } from '../../../utils/api/user/user.types';
+import { UserApi } from '../../../utils/api/user/user';
+
 
 
   interface RegisterPopupProps {
@@ -29,7 +30,7 @@ import { RegisterUserDto } from '../../../utils/api/user/user.types';
 
 const RegisterPopup:React.FC<RegisterPopupProps> = ({EmailLoginClick}) => {
   const[loginDisable,setLoginDisable] = React.useState(true)
-  const[errorMessage,setErrorMessage] = React.useState('')
+  const[errorMessage,setErrorMessage] = React.useState<JSX.Element | null >(null)
   const {register, handleSubmit, formState:{ errors }} = useForm<RegisterUserDto>({
     mode:'onSubmit',
     resolver: yupResolver(LoginSchema)
@@ -44,20 +45,14 @@ const RegisterPopup:React.FC<RegisterPopupProps> = ({EmailLoginClick}) => {
       <form
         onSubmit={handleSubmit( async(dto:RegisterUserDto) => {
           try {
-            const data = await Api().user.register(dto)
-           
-            setCookie(null, 'accessToken', data.username , {
-              maxAge: 30 * 24 * 60 * 60,
-              path: '/',
-            })
-            setErrorMessage('')
+            await UserApi.register(dto)
+            EmailLoginClick()
 
           } catch (error) {
-           
             if(axios.isAxiosError(error)){
               const serverError = error as AxiosError<ServerError>;
                 if (serverError && serverError.response) {
-                  setErrorMessage(serverError.response.data.message)
+                  setErrorMessage( <Alert severity="warning" className={styles.alert}>{serverError.response.data.message}</Alert>)
                   console.warn('RegisterError Error',error)
                 }
             }
@@ -67,12 +62,13 @@ const RegisterPopup:React.FC<RegisterPopupProps> = ({EmailLoginClick}) => {
 
         <div className={styles.container}>
           <span className={styles.loginButtonText}>Register with email or<br /><span className={styles.loginButton} onClick={EmailLoginClick}>login account</span></span>
-        <DialogActions disableSpacing={true}>
+        <DialogActions disableSpacing={true} sx={{display:'block'}}>
          <TextField {...register("username", {
           required: true
         })}  placeholder='Full name' variant='outlined' fullWidth size='small'  helperText={errors.username?.message} error={!! errors.username?.message} />
          <TextField {...register("email")}  placeholder=' Email' size='small' variant='outlined' style={{marginTop:'15px'}} fullWidth helperText={errors.email?.message} error={!! errors.email?.message}/>
          <TextField {...register("password")}  placeholder=' Password' variant='outlined' style={{marginTop:'15px'}} fullWidth size='small' helperText={errors.password?.message} error={!! errors.password?.message}/>
+        {errorMessage}
          <div className={styles.captcha}>
          <ReCAPTCHA 
          onChange={onChange} sitekey="6Ld3yZ4cAAAAAAAonwFRzjr9_pndHy-XY6HjvMcK" />

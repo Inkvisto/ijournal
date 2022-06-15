@@ -35,7 +35,7 @@ const handleClose = () => {
             </span>
           </Button>
          <div className={styles.buttons} ><Link href='/' passHref><Button>Popular</Button></Link>
-            <Button>Newest<i className={styles.icon}><KeyboardArrowDownIcon /></i></Button></div>
+            <Button color='inherit'>Newest<i className={styles.icon}><KeyboardArrowDownIcon /></i></Button></div>
 
      <SettingsDialog open={open} handleClose={handleClose} />
     </div>

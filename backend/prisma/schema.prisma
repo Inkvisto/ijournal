@@ -46,7 +46,7 @@ model Category {
   updatedAt   DateTime            @updatedAt
   name        String
   subscribers Int                 @default(0)
-  posts       CategoriesOnPosts[]  
+  posts       CategoriesOnPosts[] 
   authorId    String 
   image       String
   author      User?               @relation(fields: [authorId], references: [id])
@@ -65,7 +65,7 @@ model Comment {
 }
 
 model CategoriesOnPosts {
-  post       Posts    @relation(fields: [postId], references: [id])
+  post       Posts    @relation(fields: [postId], references: [id], onDelete: Cascade) 
   postId     String // relation scalar field (used in the `@relation` attribute above)
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId String // relation scalar field (used in the `@relation` attribute above)

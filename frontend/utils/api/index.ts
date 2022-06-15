@@ -6,10 +6,7 @@ import { CommentsApi } from './comment/comment'
 import { MinioApi } from './minio/minio'
 
 
-export type ApiReturnType = {
-    user:ReturnType<typeof UserApi>;
-    post:ReturnType<typeof PostApi>
-}
+
 
 
 export const Api = () => {
@@ -20,10 +17,7 @@ const instanse = axios.create({
 })
 
 return{
-    user:UserApi(instanse),
-    post:PostApi(instanse),
-    category:CategoryApi(instanse),
-    comments:CommentsApi(instanse),
+        comments:CommentsApi(instanse),
     minio:MinioApi(instanse)
 }
 

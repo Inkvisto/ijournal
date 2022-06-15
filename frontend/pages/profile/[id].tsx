@@ -5,9 +5,17 @@ import Header from '../../components/Header'
 import SideBarContainer from '../../components/SideBarComponents/SideBarContainer'
 import SideComments from '../../components/CommentModule/SideComments'
 import ProfileContainer from '../../components/ProfileComponents/ProfileContainer'
+import { setUserData } from '../../redux/slices/user'
+import { Api } from '../../utils/api'
+import { wrapper } from '../../redux/store'
+import Shell from '../../components/ShellComponent'
+import { UserApi } from '../../utils/api/user/user'
+import { useStore } from 'effector-react'
+import { $user } from '../../effector/$user'
 
 const ProfilePage: NextPage = () => {
-  const[sideBarVisible,setSideBarVisible] =React.useState(true)
+  const[sideBarVisible,setSideBarVisible] = React.useState(true)
+  const user = useStore($user)
 
   const sideBarToggle =() =>{
     if(sideBarVisible === true){
@@ -17,16 +25,11 @@ const ProfilePage: NextPage = () => {
     }
   }
   return (
-    <div className={styles.container}>
-      <div className={styles.sticky}>
-       <Header menuClick={sideBarToggle} />
-       {sideBarVisible ? <div className={styles.sidebar}>
-        <SideBarContainer />
-        </div>: null}
-      </div>
+    <div>
+     <Shell />
       
-      <div className={styles.main}>
-        <ProfileContainer />
+      <div className={styles.profileMain}>
+        <ProfileContainer user={user} />
       </div>
   
     
@@ -35,3 +38,5 @@ const ProfilePage: NextPage = () => {
 }
 
 export default ProfilePage
+
+

@@ -4,16 +4,11 @@
 
 type Auth {
   """JWT access token"""
-  accessToken: JWT!
+  accessToken: String!
 
   """JWT refresh token"""
-<<<<<<< HEAD
   refreshToken: String!
   user: UserModel
-=======
-  refreshToken: JWT!
-  user: User!
->>>>>>> 7d9670b855cfe4c06a67beab30698f29fb923f17
 }
 
 input ChangePasswordInput {
@@ -27,15 +22,8 @@ input CreatePostInput {
   title: String!
 }
 
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
-"""
-A field whose value is a JSON Web Token (JWT): https://jwt.io/introduction.
-"""
-scalar JWT
+"""Date custom scalar type"""
+scalar Date
 
 input LoginInput {
   email: String!
@@ -47,7 +35,6 @@ type Mutation {
   createPost(data: CreatePostInput!): [PostModel!]!
   getAuthenticatedUser(data: String!): Auth!
   login(data: LoginInput!): Auth!
-  refreshToken(token: JWT!): Token!
   signup(data: SignupInput!): Auth!
   updateUser(data: UpdateUserInput!): UserModel!
 }
@@ -79,19 +66,14 @@ type PostModel {
   content: [String!]!
 
   """Identifies the date and time when the object was created."""
-<<<<<<< HEAD
   createdAt: Date!
   id: String!
   likes: Int!
-=======
-  createdAt: DateTime!
-  id: ID!
->>>>>>> 7d9670b855cfe4c06a67beab30698f29fb923f17
   published: Boolean!
   title: String!
 
   """Identifies the date and time when the object was last updated."""
-  updatedAt: DateTime!
+  updatedAt: Date!
 }
 
 type PostModelEdge {
@@ -133,39 +115,19 @@ type Subscription {
   postCreated: PostModel!
 }
 
-type Token {
-  """JWT access token"""
-  accessToken: JWT!
-
-  """JWT refresh token"""
-  refreshToken: JWT!
-}
-
 input UpdateUserInput {
   username: String!
 }
 
-<<<<<<< HEAD
 type UserModel {
-=======
-type User {
-  """Identifies the date and time when the object was created."""
-  createdAt: DateTime!
->>>>>>> 7d9670b855cfe4c06a67beab30698f29fb923f17
+  avatar: String!
+  createdAt: Date!
   email: String!
   id: ID!
-<<<<<<< HEAD
   password: String!
   posts: [PostModel!]
   refresh: String!
   role: String!
+  updatedAt: Date!
   username: String!
-=======
-  lastname: String
-  posts: [Post!]!
-  role: Role!
-
-  """Identifies the date and time when the object was last updated."""
-  updatedAt: DateTime!
->>>>>>> 7d9670b855cfe4c06a67beab30698f29fb923f17
 }

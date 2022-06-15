@@ -1,0 +1,63 @@
+.header{
+    display: flex;
+    justify-content: space-around;
+    font-family: Roboto;
+    font-size: 18px;
+}
+
+.img{
+  
+}
+
+.form{
+    width: 270px;
+}
+
+.UploadImages{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    div{
+        margin-top: 5px;
+    }
+    input{
+        opacity: 0;
+        position: absolute;
+        z-index: -1;
+    }
+    img{
+        width: 30px;
+        height: 30px;
+        object-fit: cover;
+        border-radius: 20px;
+       }
+   
+}
+
+.formImageAlert{
+    position: absolute;
+    left: 300px;
+    top: -5px;
+}
+.listCategoryImages{
+    border-radius: 20px;
+}
+
+.list{
+    min-height: 150px;
+    margin-left: 50px;
+    width: 300px;
+ 
+   li{
+    display: flex;
+    
+justify-content: space-between;
+    span{
+        font-size: large;
+        margin:0px 15px 0px 15px;
+    }
+    
+
+   }
+}
+

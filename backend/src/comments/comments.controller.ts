@@ -31,7 +31,7 @@ findAll(){
 
     @Get('/:commentId')
       find(@Param() id:CommentArgsId){
-        console.log(id);
+    
         
         return this.commentsService.getById(id)
       }

@@ -1,5 +1,4 @@
 import { PrismaService } from 'nestjs-prisma';
-import { Prisma, User } from '@prisma/client';
 import {
   Injectable,
   NotFoundException,
@@ -9,22 +8,15 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { PasswordService } from './password.service';
-<<<<<<<< HEAD:src/auth/services/auth.service.ts
 import { SignupInput } from '../../models/inputs/auth-inputs/signup.input';
 import { Prisma, User } from '@prisma/client';
 import { ConfigService } from '@nestjs/config';
 import { SecurityConfig } from 'src/configs/config.interface';
 import { UserService } from '../../user/user.service';
 import { Auth } from '../../models/auth.model';
-
-========
-import { SignupInput } from './dto/signup.input';
-import { Token } from './models/token.model';
-import { SecurityConfig } from 'src/common/configs/config.interface';
->>>>>>>> 7d9670b855cfe4c06a67beab30698f29fb923f17:src/auth/auth.service.ts
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -52,6 +44,9 @@ export class AuthService {
       
       return user;
     } catch (e) {
+      
+      console.log(e);
+      
       if (
         e instanceof Prisma.PrismaClientKnownRequestError &&
         e.code === 'P2002'
@@ -66,7 +61,7 @@ export class AuthService {
   async login(email: string, password: string):Promise<Auth> {
     try{
     const user = await this.prisma.user.findUnique({ where: { email:email } });
-
+    
     if (!user) {
       throw new NotFoundException(`No user found for email: ${email}`);
     }
@@ -75,6 +70,8 @@ export class AuthService {
       password,
       user.password
     );
+
+    
 
     if (!passwordValid) {
       throw new BadRequestException('Invalid password');
@@ -85,9 +82,6 @@ export class AuthService {
 
     return this.generateTokens({
       userId: user.id,
-      email:user.email,
-      password:user.password,
-      username:user.username
     });
   } catch (error) {
     throw new HttpException('Wrong credentials provided', HttpStatus.BAD_REQUEST);
@@ -122,15 +116,14 @@ export class AuthService {
   }
 
 
-  generateTokens(payload:{email:string,password:string,userId:string,username:string}) {
+  generateTokens(payload: { userId: string }) {
     return {
       accessToken: this.generateAccessToken(payload),
       refreshToken: this.generateRefreshToken(payload),
     };
   }
 
-  private generateAccessToken(payload:{email:string,password:string,userId:string,username:string} ){
-  
+   generateAccessToken(payload:{userId:string} ){
     const securityConfig = this.configService.get<SecurityConfig>('security');
     return this.jwtService.sign(payload,{
       secret: this.configService.get('JWT_ACCESS_SECRET'),
@@ -146,29 +139,33 @@ export class AuthService {
     });
   }
 
-  refreshToken(token: string) {
-    
-    try {
-      const { userId } = this.jwtService.verify(token, {
-        secret: this.configService.get('JWT_REFRESH_SECRET'),
-      });
+  async setCurrentRefreshToken(refreshToken: string, userId: string) {
+    const refresh = await bcrypt.hash(refreshToken, 10);
+    await this.userService.updateUser(userId, {
+      refresh
+    });
+  }
 
-      const password = ''
-      const email = ''
-      const username = ''
 
-      return this.generateTokens({
-        userId,
-        password,
-        email,
-        username
-      });
-    } catch (e) {
-      throw new UnauthorizedException();
+  async getUserIfRefreshTokenMatches(refreshToken: string, id: Prisma.UserWhereUniqueInput) {
+    const user = await this.userService.user(id)
+ 
+    const isRefreshTokenMatching = await bcrypt.compare(
+      refreshToken,
+      user.refresh
+    );
+ 
+    if (isRefreshTokenMatching) {
+      return user;
     }
   }
 
+  async removeRefreshToken(userId: string) {
+    return this.userService.updateUser(userId,{refresh:null});
+  }
+
   public logout(){
-    return `accessToken=; HttpOnly; Path=/; Max-Age=0`;
+    return [`accessToken=; HttpOnly; Path=/; Max-Age=0`,
+    'refreshToken=; HttpOnly; Path=/; Max-Age=0']
   }
 }

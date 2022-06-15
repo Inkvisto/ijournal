@@ -17,7 +17,6 @@ import { MinioModule } from 'nestjs-minio-client';
 import { CategoryModule } from './category/category.module';
 import { CommentsModule } from './comments/comments.module';
 import { APP_FILTER } from '@nestjs/core';
-import { PrismaForeignKeyErrorFilter } from './common/exception-filters/not-found-exception.filter';
 import { ScheduleModule } from '@nestjs/schedule';
 
 
@@ -46,8 +45,8 @@ import { ScheduleModule } from '@nestjs/schedule';
             graphqlConfig.schemaDestination || './src/schema.graphql',
           debug: graphqlConfig.debug,
           playground: graphqlConfig.playgroundEnabled,
-          context: ({ req }) => ({ req }),
-          plugins:[graphqlConfig.apolloPlayground]
+          plugins:[graphqlConfig.apolloPlayground],
+          context: ({ req }) => ({ req })
         };
       },
       inject: [ConfigService],
@@ -61,9 +60,9 @@ import { ScheduleModule } from '@nestjs/schedule';
   ],
   controllers: [AppController],
   providers: [AppService, AppResolver, DateScalar,
-  {
+  /*{
     provide:APP_FILTER,
     useClass:PrismaForeignKeyErrorFilter
-  }],
+  }*/],
 })
 export class AppModule {}

@@ -23,7 +23,7 @@
 .editor{
     font-size: 18px;
     margin-left: 7%;
-    height: 42vh;
+    height: 40vh;
     width: 720px;
     overflow-x:hidden;
     text-overflow:clip;
@@ -36,8 +36,8 @@
 
 .buttons{
     display: flex;
-    width: 865px;
-
+    width: 1050px;
+    margin-top: 20px;
     justify-content: space-around;
    
 }

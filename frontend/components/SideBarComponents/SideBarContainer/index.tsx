@@ -69,9 +69,9 @@ const SideBar = ({categories}:any) => {
                     </li>
                 ))}
             </ul>
-            <div className={styles.SidebarCategories}>
+  
                 <SidebarCategories categories={categories} getPullClick={getCategoriesOpenValue} />
-            </div>
+            
            
            <SideBarFooter  footerStyles={footerStyles}/>
            

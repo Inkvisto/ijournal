@@ -7,6 +7,7 @@ import Main from '../../components/MainComponents/Main'
 import Post from '../../components/Post/Post'
 import { setPostId } from '../../redux/slices/post'
 import { Api } from '../../utils/api'
+import { PostApi } from '../../utils/api/post/posts'
 
 
 
@@ -17,7 +18,7 @@ const NewsPage = ()=> {
 
  
 
-   const postData = Api().post.getOnePost(route.id)
+   const postData = PostApi.getPost(route.id)
 
 const dispatch = useDispatch()
    async function f(){

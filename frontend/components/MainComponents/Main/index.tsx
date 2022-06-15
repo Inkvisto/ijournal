@@ -1,191 +1,174 @@
 import React from "react";
+import { minioImageLoader } from "../../../utils/constans/minioImageLoader";
+
+import { Post } from "../../../utils/api/post/post.types";
+import { dateDiffInDays, dateDiffInHours } from "../../../utils/time/isoToDate";
+import ImagePost from "./ImagePost";
+import { getPost } from "../../../effector/$post";
+import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
+import AutorenewIcon from '@mui/icons-material/Autorenew';
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import FileUploadIcon from '@mui/icons-material/FileUpload';
+import useFetch from "./useFetch";
+import { useState, useCallback, useRef } from 'react';
 import styles from './Main.module.scss'
 import Link from 'next/link'
 import Image from 'next/image'
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import PopularMain from "../PopularMain";
-import MainSkeleton from "./MainSkeleton";
-import { useRouter } from "next/router";
-import { minioImageLoader } from "../../../utils/constans/minioImageLoader";
-import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
-import { Post } from "../../../utils/api/post/post.types";
-import { NextComponentType } from "next";
-import { dateDiffInDays, dateDiffInHours } from "../../../utils/time/isoToDate";
 
+import ToggleFilter from "../ToggleFilter";
+import { Titles } from "./PostTitles";
+import { useJSX } from "../../../utils/hooks/useJSX";
+import ParagraphPost from "./ParagraphPost";
+import category from "../../../redux/slices/category";
 
 
 interface MainProps {
-    posts?:[Post];
-    loading:boolean;
-    serverError:boolean;
+    postTitles: any;
+    loading: boolean;
 }
 
-
-
-
-
-const Main = ({posts,loading,serverError}:MainProps) => {
-  
-
-    const[transitionStyles,setTransitionStyles] = React.useState(true)
-    const pullUp = () => {
-        {transitionStyles ? setTransitionStyles(false) : setTransitionStyles(true)}
-    }
-
-    
-
-    const router = useRouter()
-
-    const  inlineStyles = {
-        maxHeight: {
-            maxHeight:'10000px'
-        },
-        minHeight: {
-            maxHeight:'70px',
-        },
-        maxTextOpacity: {
-            opacity:1
-        },
-        minTextOpacity: {
-            opacity:0,
-        },
-        buttonVisible: {
-            opacity:1,
-            height:0
-        },
-        buttonNotVisible:{
-            height: 0,
-            opacity:0,
+type PostPart = {
+    id:string;
+    type:string;
+    data:{
+        text:string;
+    } & {
+        caption:string;
+        file:{
+            url:string
         }
+        scretched:boolean;
+        withBackground:boolean;
+        withBorder:boolean;
     }
+}
 
-   
+const Main = () => {
+    const [pageNum, setPageNum] = useState(1);
+    const { isLoading, error, list, hasMore } = useFetch(pageNum);
+    const [componentValue,setComponentValue]:any = useJSX()
 
-
-
-
-   const PostsBlock = (<div>{posts && posts.map((obj:any)=>{
-
-
-
-  console.log(obj);
-  
-   
-
-   const a = new Date(obj.createdAt);
-   const  b = new Date();
-       
-
-    
-   
-        return(
-          
-            <div key={obj.id}> 
-            <Link href={`/post/${obj.id}`} key={obj.id}> 
-            <ul className={styles.block}>
-                <Image
-                loader={minioImageLoader}
-                width='50px' 
-                height='50px'   
-                objectFit="cover"
-                alt="Picture of the category"
-                src='7a627d0225e1f999d970495496fb2ca8.jpg'
-                />
-                 {obj.author.username}
-                 <span className={styles.postDate}>{ dateDiffInHours(a, b)<24 ? (dateDiffInHours(a, b)+' hours') : (dateDiffInDays(a,b)+' days')} </span>
-                         <p className={styles.title}>
-                        {obj.title}
-                        </p>
-                <li>
-                    <div className={styles.mainHeader}>
-                     
-        <div className={styles.comments} key={obj.id}>
-                <a key={obj.id}>
-                    <p className={styles.text}>
-                        {obj.comments.map((e:any)=>(
-                            <div>
-                                {e.content}
-                                <button>
-                                    {e.likes}
-                                </button>
-                                </div>
-                        ))}
-                    </p>
-                </a>
-            
-        </div>
-        
-                    </div> 
+    const observer = useRef<any>();
+    const lastBookElementRef = useCallback(
+        (node) => {
+            if (isLoading) return;
+            if (observer.current) observer.current.disconnect();
+            observer.current = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting && hasMore) {
+                    setPageNum((prev) => prev + 1);
+                }
+                if(!hasMore){
+                    setComponentValue(
+                        <div>
+                            No more content
+                        </div>
+                    )
                     
-                 </li>
-            </ul>
-            </Link>
-            </div>
-           
-        )})}</div>)
+                }
+            });
+            if (node) observer.current.observe(node);
+        },
+        [isLoading, hasMore]
+    );
 
-   
-
-    const TodayPopularTitles = (
-            <div>
-                <ul className={styles.block} 
-                style={(transitionStyles) ? inlineStyles.maxHeight : inlineStyles.minHeight}>
-                  
-                <button onClick={pullUp} className={styles.pullUp}>
-                                   pull up
-                               </button>
-                            
-                       
-                {posts && posts.map((obj:any)=>
-                  
-                 <div key={obj.id}>  <Link href={`/news/${obj.id}`} passHref>
-                      <p className={styles.text} style={(transitionStyles) ? inlineStyles.maxTextOpacity: inlineStyles.minTextOpacity}>
-                             {obj.title} <span className={styles.commentIcon}><ModeCommentOutlinedIcon fontSize='inherit' /> {obj.comments.length}</span>
-        <p className={styles.commentsCount}  style={(transitionStyles) ? inlineStyles.maxTextOpacity: inlineStyles.minTextOpacity}>
-            
+    return (
+        <div> 
+            <div className={styles.container}>
+                <Titles />
+                <div className={styles.popularMain}>
+                    <ToggleFilter />
+                </div>
+                <div >{list.map((obj: Post) => {
+                    const a = new Date(obj.createdAt);
+                    const b = new Date();
+                    console.log(obj);
                     
-                           </p>
-                         
-                           </p>
-                    </Link>
-                         
-                        
-                   </div>
-                 
-                )}
-                   <div>
-                               <button className = {styles.moreButton} style={(transitionStyles) ? inlineStyles.buttonVisible: inlineStyles.buttonNotVisible}>Load More<KeyboardArrowDownIcon /></button>
+                    
+                    const firstImage = JSON.parse(obj.content).find((e: PostPart) => e.type === 'image')
+                    const postBaseRender = () => {
+                        if (firstImage !== undefined) {
+                            switch (firstImage.type) {
+                                case "image":
+                                    return <ImagePost data={firstImage.data} />
+                                    break;
                                
-                           </div>
-                    </ul>
+                            }
+                        }
+                        else {
+                            null
+                        }
+                    }
+
+                    return (
+
+                        <div key={obj.id} ref={lastBookElementRef} className={styles.posts}>
+                             <article className={styles.post}>
+                                    <div>
+                                        {obj.author.avatar && <Image
+                                            loader={minioImageLoader}
+                                            width='50px'
+                                            height='50px'
+                                            objectFit="cover"
+                                            alt="Picture of the category"
+                                            src={obj.author.avatar}
+                                        />}
+
+                                        {obj.author.username}
+                                        <span className={styles.postDate}>{dateDiffInHours(a, b) < 24 ? (dateDiffInHours(a, b) + ' hours') : (dateDiffInDays(a, b) + ' days')} </span>
+                                        <p className={styles.title}>
+                                            {obj.title}
+                                        </p>
+                                    </div>
+                            <Link href={`/post/${obj.id}`} key={obj.id}><a>
+                               
+
+
+                                    {
+                                        postBaseRender()
+                                    }
+                                
+                            </a>
+                            </Link>
+                            <footer className={styles.postFooter}>
+                                <span>
+                                <Link href='/#'>
+                            <a className={styles.comments}>
+                                <ModeCommentOutlinedIcon  />
+                                <span>
+                                    {obj.comments.length}
+                                </span>
+                                </a>
+                                    </Link>
+                                    
+                                <Link href='/#'>
+                                    <AutorenewIcon />
+                                </Link>
+                                <BookmarkBorderIcon />
+                                <FileUploadIcon />
+                                </span>
+                                <article>
+                                    likes
+                                </article>
+                            </footer>
+                            </article>
+                        </div>
+
+                    )
+                })}</div>
+
+
+                <div>{isLoading && 'Loading...'}</div>
+                <div>{error && 'Error...'}</div>
+
             </div>
-        )
 
-
-        if(loading){
-    return(
-        <div><MainSkeleton /></div>
-    )
-  }else{
-
-    return(
-        <div>{posts !== undefined &&(
-                <div className={styles.container}>
-             {TodayPopularTitles}
-             <div className={styles.popularMain}>
-             <PopularMain />  
-             </div> 
-         
-                 {PostsBlock}
-                
-                  </div>
-            )
-            }
-           </div>     
+            {componentValue}
+          
+        </div>
 
     )
 
-        }
+
 }
 
 
@@ -193,3 +176,6 @@ const Main = ({posts,loading,serverError}:MainProps) => {
 
 
 export default Main
+
+
+

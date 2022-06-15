@@ -5,7 +5,7 @@ import axios, { AxiosInstance } from 'axios'
 
 export const CommentsApi = (instanse:AxiosInstance) =>({    
     async getAll(){
-        const {data}:any = await instanse.get('/comments').catch((error)=>{
+        const data:any = await instanse.get('/comments').catch((error)=>{
             if (error.response) {
                 // The request was made and the server responded with a status code
                 // that falls out of the range of 2xx

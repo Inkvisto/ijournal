@@ -39,6 +39,7 @@ export const Editor:React.FC<EditorProps> = ({onChange}) => {
                 async uploadByFile(file:any){
              
                
+         
                  
             // your own uploading logic here
            return await Api().minio.uploadFile(file).then(({image_url,message})=>{

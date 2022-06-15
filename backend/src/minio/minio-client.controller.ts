@@ -14,8 +14,9 @@ export class MinioClientController {
   @Post('/single')
   @UseInterceptors(FileInterceptor('image'))
   async uploadSingle(
-    @UploadedFile() image: BufferedFile
+    @UploadedFile() image: any
   ) {
+
   
     
     return await this.fileUploadService.uploadSingle(image)

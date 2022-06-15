@@ -1,9 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
+import { AppModule } from '../src/app.module';
 import { Chance } from 'chance';
-import { AppModule } from 'src/app.module';
-
+import { INestApplication } from '@nestjs/common';
 const chance = new Chance();
 
 describe('AppResolver (e2e)', () => {

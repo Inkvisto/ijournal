@@ -14,9 +14,9 @@ import { CategoryService } from '../category/category.service';
 
 
 @Module({
-  imports:[AuthModule,PostModule,SearchModule,CategoryModule],
+  imports:[AuthModule,PostModule,CategoryModule],
   controllers:[PostController],
-  providers: [PostResolver,PostService,PostsSearchService,CategoryService]
+  providers: [PostResolver,PostService,CategoryService]
 })
 
 export class PostModule {}

@@ -14,7 +14,7 @@ const ProfileArticles:React.FC<ProfileArticlesProps> = ({miniAvatar,avatarLoader
 
         <div className={styles.container}>
             <div className={styles.addPostContainer}>
-                <div className={styles.addPost}><i className={styles.miniAvatar}><Image src={miniAvatar} loader={avatarLoader} alt='profile_image_error' layout='responsive' objectFit='cover'  width='50px' height='50px' /></i><Input className={styles.input} fullWidth placeholder='Add post' /></div>
+                <div className={styles.addPost}>{miniAvatar && <i className={styles.miniAvatar}><Image src={miniAvatar} loader={avatarLoader} alt='profile_image_error' layout='responsive' objectFit='cover'  width='50px' height='50px' /></i>}<Input className={styles.input} fullWidth placeholder='Add post' /></div>
                 <div className={styles.links}>
                 <Button><i><AddAPhotoOutlinedIcon /></i><p>Photo and video</p></Button>
                 <Button><i><AddLinkIcon /></i><p>Href</p></Button>

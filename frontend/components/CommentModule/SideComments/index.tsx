@@ -24,7 +24,7 @@ const SideComments = ({comments}:any) => {
             {visible ? (
                 <div className={styles.container}>
                   <div className={styles.commentsButton} onClick={()=>setVisible(false)}>
-                <Button style={{ backgroundColor: 'transparent',paddingLeft:'0px' }}>
+                <Button color='inherit' style={{ backgroundColor: 'transparent',paddingLeft:'0px' }}>
                     Comments
                 </Button>
                 <ChevronRightIcon />

@@ -16,6 +16,7 @@ export type User = {
     username:string;
     role:string,
     avatar:string | null
+   
 } & BaseType
 
 

@@ -4,7 +4,6 @@ import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { PrismaClientExceptionFilter, PrismaService } from 'nestjs-prisma';
 import { AppModule } from './app.module';
-<<<<<<< HEAD
 import * as cookieParser from 'cookie-parser';
 import {
   CorsConfig,
@@ -16,13 +15,6 @@ import { join } from 'path';
 import { RedisIoAdapter } from './configs/redis.adapter';
 const bodyParser  = require('body-parser');
 
-=======
-import type {
-  CorsConfig,
-  NestConfig,
-  SwaggerConfig,
-} from 'src/common/configs/config.interface';
->>>>>>> 7d9670b855cfe4c06a67beab30698f29fb923f17
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);

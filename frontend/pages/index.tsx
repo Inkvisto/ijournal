@@ -1,18 +1,18 @@
 import React from 'react'
 import type {  NextPage } from 'next'
 import { Api } from '../utils/api'
-
 import { useRouter } from 'next/dist/client/router'
-import App from 'next/app'
 import { wrapper } from '../redux/store'
-import { parseCookies } from 'nookies'
-import { setUserData } from '../redux/slices/user'
 import Shell from '../components/ShellComponent'
-import PostPage from './post/[id]'
 import { User } from '../utils/api/user/user.types'
 import { Post } from '../utils/api/post/post.types'
 import { Category } from '../utils/api/category/category.types'
 import { Commentary } from '../utils/api/comment/comment.types'
+import { UserApi } from '../utils/api/user/user'
+import { PostApi } from '../utils/api/post/posts'
+import {  $postTitles, getPostsTitles } from '../effector/$post'
+import { useStore } from 'effector-react'
+import { CategoryApi } from '../utils/api/category/category'
 
 interface UnionData {
   user:User,
@@ -21,55 +21,23 @@ interface UnionData {
   comments:[Commentary]
 }
 
-const Home:NextPage<UnionData> = ({user,post,category,comments}:UnionData) => {
-  const [loading,setLoading] = React.useState(true);
-  const [serverError,setServerError] = React.useState(false)
-  const router = useRouter()
-
-
-
+const Home:NextPage<UnionData> = () => {
+  const [loading,setLoading] = React.useState(false);
+  const router = useRouter();
+  const [titles,setTitles] = React.useState()
 
 React.useEffect(()=>{
-  if(post === null) router.replace('/500')
-  setLoading(false)
-},[post,category])
-
-;
+ (async()=>{
+  const postTitles:any = await PostApi.findTitles(4,'')
+  getPostsTitles(postTitles)
+  setTitles(postTitles)
+ })()
+},[]) 
 
   return (
-   <Shell  key={router.asPath} posts={post} categories={category} comments={comments} loading={loading} serverError={serverError} />
-  )
+   <Shell  key={router.asPath} loading={loading}  posts={titles}/>
+ )
 }
-
-
-
-
-export const getServerSideProps = wrapper.getServerSideProps(store => async (ctx)=>{
-
-
-  const token = ctx.req.cookies
-  const accessToken = {accessToken:token.accessToken}
-  const userData = await Api().user.getUser(accessToken)
-  if(userData !== undefined) store.dispatch(setUserData(userData))
-  
-  const posts:[Post] = await Api().post.getAll()
-  const categories:[Category] = await Api().category.getAll()
-  const comments:[Commentary] = await Api().comments.getAll()
-  
-
-
-
-  return {
-    props: {user:userData ?? null,post:posts ?? null,category:categories ?? null,comments:comments ?? null}, // will be passed to the page component as props
-  
-
-}
-
-
-})
-
-
-
 
 
 

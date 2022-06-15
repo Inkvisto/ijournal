@@ -5,14 +5,13 @@
     ul{
         
         list-style-type: none;
-        
         margin-top: 12px;
         margin-left: 10px;
-    } 
-    svg{
-        margin-left: 20px;
-    }
+      button{
+        padding-left: 20px;
 
+      }
+    } 
  
     button{
         width: 200px;
@@ -24,10 +23,10 @@
         &:hover{
             background-color: #fff;
         }
-        img{
-           border-radius: 20%;
-           margin-right: 10px;
+        span{
+            margin-left: 20px;
         }
+       
     }
    
     span{
@@ -55,8 +54,6 @@
         border-radius: 10px;
     }
 }
-
-    
 
 }
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { User } from '@prisma/client';
+import { Category, User } from '@prisma/client';
 import { PrismaService } from 'nestjs-prisma';
 import { CategoryIdArgs } from '../models/args/category-id.args';
 import { UserIdArgs } from '../models/args/user-id.args';
@@ -15,20 +15,18 @@ export class CategoryService {
     private readonly prisma:PrismaService,
   ){}
 
-  async findAll() {
-    const category =  await this.prisma.category.findMany({
-      select:{posts:{include:{post:true,category:true}}}
-    })
+  async findCategories(param:{take?:number}):Promise<Category[]> {
+    const {take} = param
+   if(take === undefined){
+    return await this.prisma.category.findMany()  
+   }
+   return await this.prisma.category.findMany({
+    take
+  })
+  }
 
-    const categoriesWithPosts = []
-    category.map((e)=>{
-      categoriesWithPosts.push(...e.posts)
-    })
-   
-   
-return category
-
-
+  async findSubscriptions(){
+   // return await this.prisma.
   }
 
 
@@ -44,18 +42,22 @@ return category
     })
   }
 
+  async deleteAll(){
+    return this.prisma.category.deleteMany()
+  }
 
 
 
-  create(category:CategoryInput,user:UserIdArgs) {
+
+  create(category:CategoryInput,user:User) {
     return this.prisma.category.create({
       data:{
         subscribers:0,
-        image:category.url,
+        image:category.image_url,
         name:category.name,
         author:{
           connect:{
-            id:user.userId
+            id:user.id
           }
         },
         },
@@ -73,6 +75,8 @@ return category
       include:{post:true,category:true}
     })
   }
+
+ 
 
   update(id:CategoryIdArgs, updateCategoryData:CategoryModel) {
     return this.prisma.category.update({

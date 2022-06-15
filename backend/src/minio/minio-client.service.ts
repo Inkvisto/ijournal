@@ -73,9 +73,9 @@ export class MinioClientService {
   
     
       const config = this.configService.get<MinioConfig>('minio')
-    if(!(file.mimetype.includes('jpeg') || file.mimetype.includes('png'))) {
-      throw new HttpException('Error uploading file', HttpStatus.BAD_REQUEST)
-    }
+    //if(!(file.mimetype.includes('jpeg') || file.mimetype.includes('png'))) {
+    //  throw new HttpException('Error uploading file', HttpStatus.BAD_REQUEST)
+    //}
     let temp_filename = Date.now().toString()
     let hashedFileName = crypto.createHash('md5').update(temp_filename).digest("hex");
     let ext = file.originalname.substring(file.originalname.lastIndexOf('.'), file.originalname.length);

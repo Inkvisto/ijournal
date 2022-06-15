@@ -1,0 +1,61 @@
+.container{
+    background-color: white;
+    width: 650px;
+    border-radius: 10px;
+    margin-bottom: 40px;
+    padding: 20px;
+    margin: 1%;
+    overflow: hidden;
+    transition: max-height 500ms;
+}
+
+.pullUp{
+    border: none;
+    background-color: inherit;
+    color: #595959;
+    cursor: pointer;
+    height: 18px;
+    line-height: 18px;
+    
+}
+
+.text{
+    transition:opacity 800ms ;
+    margin-top: 10px;
+    display:flex;
+    align-items: flex-end;
+    &:hover{
+        color: #346eb8
+    };
+}
+
+
+.commentsCount{
+    margin-left: 4px;
+    transition:opacity 800ms ;
+}
+
+.commentIcon{
+    margin-left: 10px;
+    svg{
+        margin-right: 5px;
+    }
+    display: inline-flex;
+    align-items: center;
+    
+}
+
+.moreButton{
+    &:hover{
+        color: #346eb8
+    };
+    margin-top: 20px;
+    border: none;
+    background-color: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 14px;
+    transition: opacity 700ms;
+    display: flex;
+    align-items: center;
+}

@@ -18,14 +18,76 @@ import PostsSearchService from './postSearch.service';
 export class PostService{
     constructor(
       private prisma:PrismaService,
-      private postsSearchService: PostsSearchService,
+    //  private postsSearchService: PostsSearchService,
       private readonly categoryService:CategoryService
       ){}
 
 
-    findAll(){
-      return this.prisma.posts.findMany({include:{author:true,comments:true}})
+    async findPosts(params: {
+      take?: number;
+      cursor?: Prisma.PostsWhereUniqueInput;
+  }): Promise<Posts[]> {
+      
+    const { take, cursor } = params;
+
+    if( cursor.id === '' ||  cursor.id === 'undefined' ){ 
+    
+      
+      
+      return  await this.prisma.posts.findMany({
+      include: { author: true, comments: true }, 
+      take
+    })}
+    else{
+      this.prisma.posts.aggregate
+    return  await this.prisma.posts.findMany({
+      include: { author: true, comments: true }, 
+      take, 
+      skip:1,
+      cursor
+    })
+  }
+  }
+
+async findTitles(params: {
+  take?: number;
+  cursor?: Prisma.PostsWhereUniqueInput;
+}): Promise<any> {
+  
+const { take, cursor } = params;
+
+
+if( cursor.id === '' ||  cursor.id === 'undefined' ){ 
+
+
+  return  await this.prisma.posts.findMany({
+  select:{
+    title:true,
+    id:true,
+    _count:{
+      select:{comments:true}
     }
+  },
+  take
+})}
+else{
+  this.prisma.posts.aggregate
+return  await this.prisma.posts.findMany({
+  select:{
+    title:true,
+    id:true,
+    _count:{
+      select:{comments:true}
+    }
+  },
+  take, 
+  skip:1,
+  cursor
+})
+}
+}
+
+
 
     async findOne(id:PostIdArgs){
     try{
@@ -85,13 +147,18 @@ export class PostService{
         },include:{author:true,categories:true}
       })
      
-       await this.postsSearchService.indexPost(post)
+      // await this.postsSearchService.indexPost(post)
       return post
     }
 
 
+    async deleteAll(){
+      return this.prisma.posts.deleteMany()
+    }
+  
 
-    async searchPosts(text:string) {
+
+    /*async searchPosts(text:string) {
       const results = await this.postsSearchService.search(text);
 
       const ids = results.map(result=>{
@@ -109,7 +176,7 @@ export class PostService{
         
         where:{id:{in:ids}}
       })
-    }
+    }*/
 
 
     async updatePost(id:string,post:Prisma.PostsUpdateInput) {
@@ -120,7 +187,7 @@ export class PostService{
     })
     const updatedPost = await this.prisma.posts.findUnique({where:{id:id}})
     if (updatedPost) {
-      await this.postsSearchService.update(updatedPost);
+      //await this.postsSearchService.update(updatedPost);
       return updatedPost;
     }
     throw new NotFoundException();
@@ -136,7 +203,7 @@ export class PostService{
       })
 
      
-      await this.postsSearchService.remove(id.postId);
+     // await this.postsSearchService.remove(id.postId);
 
       return deleteResponse
     }

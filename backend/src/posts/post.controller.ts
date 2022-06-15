@@ -1,7 +1,7 @@
 import { Body, CacheInterceptor, Controller, Get, Param, Patch, Post, Query, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 
 import { FileInterceptor } from '@nestjs/platform-express';
-import { Prisma, } from '@prisma/client';
+import { Posts, Prisma, } from '@prisma/client';
 
 
 import { PrismaService } from 'nestjs-prisma';
@@ -30,15 +30,20 @@ export class PostController{
 
 
      
-     @Get()
-    findAll(@Req() req){
-     return this.postService.findAll()
+    @Get()
+    findPosts(@Query('take') take: string, @Query('cursor') cursor: string):Promise<Posts[]>{
+     return this.postService.findPosts({take: Number(take), cursor: {id: cursor}})
     }
 
+    @Get('/titles')
+    findTitles(@Query('take') take: string, @Query('cursor') cursor: string):Promise<Posts[]>{ 
+     return this.postService.findTitles({take: Number(take), cursor: {id: cursor}})
+    }
 
 
     @Get('/:postId')
     find(@Param() id:PostIdArgs){
+      
       return this.postService.findOne(id)
     }
    
@@ -70,10 +75,10 @@ export class PostController{
     async getPosts(@Query('search') search:string) {
    
       
-      if (search) {
+      /*if (search) {
         return this.postService.searchPosts(search);
-      }
-      return this.postService.findAll();
+      }*/
+      
     }
 
 
@@ -89,6 +94,12 @@ export class PostController{
     @Post('/delete')
     async deletePost(@Body() id:PostIdArgs ){
       return await this.postService.deletePost(id)
+    }
+
+
+    @Post('/deleteAll')
+    deleteAll(){
+      return this.postService.deleteAll()
     }
 
   

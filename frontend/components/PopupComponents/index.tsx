@@ -12,17 +12,19 @@ import LoginPopup from "./LoginPopup";
 import RegisterPopup from "./RegisterPopup";
 
 import Image, { ImageLoaderProps } from "next/image";
+import { User } from "../../utils/api/user/user.types";
 
 
 
 
 interface PopupProps {
   onClose:() => void,
-  visible:boolean
+  visible:boolean,
+  loginSuccess:(user:User)=>void
 }
 
 
-const PopupContainer:React.FC<PopupProps> = ({onClose,visible}) => {
+const PopupContainer:React.FC<PopupProps> = ({onClose,visible,loginSuccess}) => {
   const [auth,setAuth] = useState<'main' | 'login' | 'register'>('main')
 
 
@@ -30,9 +32,9 @@ const closeAuth = () => {
     setAuth('main')
  }
   
- function onAuth(){
-   onClose()
-  setTimeout(closeAuth, 400)
+  function onAuth(){
+    onClose()
+    setTimeout(closeAuth, 400)
 }
 
 
@@ -66,7 +68,7 @@ const closeAuth = () => {
                   </div>)}
               <div className={styles.main}>
               { auth === 'main' && (<MainPopup EmailLoginClick={EmailLoginClick} />)}
-              { auth === 'login' && (<LoginPopup loginClose={onClose} EmailRegisterClick={EmailRegisterClick} />)}
+              { auth === 'login' && (<LoginPopup loginClose={onClose} EmailRegisterClick={EmailRegisterClick} loginSuccess={loginSuccess} />)}
               { auth === 'register' && (<RegisterPopup EmailLoginClick={EmailLoginClick}/>)}
               <div className={styles.footer}><span>By logging in,   you agree to the 
                 <a href='/terms' className={styles.footerLink}> terms of use of the site </a>

@@ -1,16 +1,11 @@
 import { Strategy, ExtractJwt } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
-<<<<<<<< HEAD:src/strategies/jwt.strategy.ts
 import { Injectable, Req, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from '../auth/services/auth.service';
 import { User } from '@prisma/client';
-========
-import { Injectable, UnauthorizedException } from '@nestjs/common';
->>>>>>>> 7d9670b855cfe4c06a67beab30698f29fb923f17:src/auth/jwt.strategy.ts
 import { ConfigService } from '@nestjs/config';
-import { User } from '@prisma/client';
-import { AuthService } from './auth.service';
-import { JwtDto } from './dto/jwt.dto';
+import { Request } from 'express';
+import { validateInput } from 'src/models/inputs/validate-info.input';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -19,16 +14,17 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     readonly configService: ConfigService
   ) {
     super({
-      jwtFromRequest: ExtractJwt.fromExtractors([(request) => {
-     
-        return request?.cookies?.accessToken;
-      }]),
-      secretOrKey: configService.get('JWT_ACCESS_SECRET'),
+      jwtFromRequest: (req:Request) => {
+        if (!req || !req.cookies) return null;
+        return req.cookies['accessToken'];
+      },
+      ignoreExpiration: false,
+      secretOrKey: configService.get('JWT_SECRET'),
     });
   }
 
-   async validate(payload:any) {
+  async validate(payload:validateInput){      
+    return this.authService.validateUser(payload.userId)
 
-    return { userId: payload.userId,username:payload.username };
   }
 }

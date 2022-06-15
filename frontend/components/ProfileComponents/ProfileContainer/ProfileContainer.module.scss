@@ -22,13 +22,16 @@
     justify-content: space-between;
 }
 
-.avatar{
+.avatarImage{
     width:10%;
     height: 10%;
     border-radius: 10px !important;
     span{
     border-radius: 10% !important;
     }
+}
+.avatarBlock{
+    background-color: green;
 }
 
 

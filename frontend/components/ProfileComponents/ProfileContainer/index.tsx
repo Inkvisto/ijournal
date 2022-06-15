@@ -1,4 +1,4 @@
-import { Button } from '@mui/material'
+import { Avatar, Button } from '@mui/material'
 import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -15,6 +15,12 @@ import ProfileSubscriptions from '../ProfileSubscriptions';
 import ProfileComments from '../ProfileComments'
 import Image, { ImageProps } from 'next/image';
 import { minioImageLoader } from '../../../utils/constans/minioImageLoader';
+import {  useTypedSelector } from '../../../redux/hooks';
+import { UserState } from '../../../redux/slices/user';
+import { useStore, useStoreMap } from 'effector-react';
+import { $user } from '../../../effector/$user';
+import { User } from '../../../utils/api/user/user.types';
+
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -49,8 +55,19 @@ interface TabPanelProps {
       'aria-controls': `simple-tabpanel-${index}`,
     };
   }
-const avatar = '7a627d0225e1f999d970495496fb2ca8.jpg'
-const ProfileContainer = () => {
+
+
+
+
+
+const ProfileContainer = ({user}:{user:User}) => {
+
+   
+
+  const date = new Date(user.createdAt).toLocaleString('default', {day:'numeric', month: 'long',year:'numeric' })
+   
+
+
 
     const [tab, setTab] = React.useState(0);
 
@@ -62,23 +79,27 @@ const ProfileContainer = () => {
   
             <div className={styles.main}>
                 <div className={styles.header}>
-                <i className={styles.avatar}  style={{borderRadius:'20%'}}>
+               
+             
+                {(user.avatar &&  
                   <Image 
                 loader={minioImageLoader} 
-                src={avatar}
+                src={user.avatar}
                 width='10%' 
                 height='10%' 
                 layout='responsive'
                 objectFit='none'
                 alt='profile_image_error'
-                  /></i>
+                  />) ??   <Avatar sx={{ bgcolor: '#6573c3',borderRadius:'7px',width: 100, height: 100, fontSize:'45px' }} variant="square" >
+                  {user.username.charAt(0)}
+                </Avatar>}
                 <div className={styles.buttons}><button><i><SettingsOutlinedIcon /></i></button>
                 <Button variant="contained"><SmsOutlinedIcon />Write</Button>
                 </div>
                 </div>
-                <p className={styles.userName}>Username</p>
+                <p className={styles.userName}>{user.username}</p>
                 <Link href='/changeNamePage'><a className={styles.changeNameLink}>Change Name or description</a></Link>
-                <div className={styles.joinDateText}><span >In project from(createdAt)</span></div>
+                <div className={styles.joinDateText}><span >In project from {date}</span></div>
                 <div className={styles.tabs}>
                         <Tabs value={tab} onChange={handleChange} aria-label="basic tabs example">
                         <Tab label="Articles" {...a11yProps(0)} />
@@ -93,7 +114,7 @@ const ProfileContainer = () => {
         <TabPanel value={tab} index={0}>
             <div className={styles.flexContainer}>
               <div className={styles.profileArticlesGrid}>
-        <ProfileArticles miniAvatar={avatar} avatarLoader={minioImageLoader} />
+        {user.avatar && <ProfileArticles miniAvatar={user.avatar} avatarLoader={minioImageLoader} />}
         </div>
         <div>
         <ProfileSubscriptions />

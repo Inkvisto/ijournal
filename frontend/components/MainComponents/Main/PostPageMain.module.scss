@@ -2,29 +2,56 @@
     background-color: white;
     width: 1000px;
     border-radius: 5px;
-    margin-bottom: 40px;
-    padding: 20px;
+    padding: 20px 0px;
     overflow: hidden;
     transition: max-height 500ms;
-    img{
-        border-radius: 15%;
-    }
     li{
         min-width: 100%;
         list-style-type: none;
     }
+    p,h1{
+        margin-left: auto;
+        margin-right: auto;
+        width: 640px;
+    }
+
+    
+    
 }
 
 .postHeader{
-   
-    
+  
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
+    margin-left: auto;
+        margin-right: auto;
+        width: 640px;
     span{
         display: flex;
         align-items: center;
     }
+}
+
+.postMain{   
+      figure{
+       
+           
+           div{
+            margin-bottom: 10px;
+            margin-top: 10px; 
+            width: 100%;
+            height: 500px;
+            position: relative;
+           }
+         
+           figcaption{
+               margin: 10px;
+           }
+      
+      
+      }
+    
 }
 
 .username{
@@ -39,9 +66,5 @@
 
 
 
-.postMain{
-    width: 700px;
-    display: flex;
-    justify-content: space-around;
-}
+
 

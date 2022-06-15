@@ -81,6 +81,6 @@ Ref: Comment.authorId > User.id
 
 Ref: Comment.postId > Posts.id
 
-Ref: CategoriesOnPosts.postId > Posts.id
+Ref: CategoriesOnPosts.postId > Posts.id [delete: Cascade]
 
 Ref: CategoriesOnPosts.categoryId > Category.id

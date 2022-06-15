@@ -3,7 +3,7 @@ import { Category } from "../category/category.types";
 import { User } from "../user/user.types";
 
 export type Post = {
-    content:string[];
+    content:string;
     title:string;
     published:boolean;
     authorId:string;
