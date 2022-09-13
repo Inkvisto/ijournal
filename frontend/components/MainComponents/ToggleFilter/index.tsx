@@ -33,7 +33,7 @@ const handleClose = () => {
          <div className={styles.buttons}><Button>Popular<i className={styles.icon}><KeyboardArrowDownIcon /></i></Button>
          <Link href='/newest' passHref><Button color='inherit'>Newest</Button></Link></div>
 
-     <SettingsDialog open={open} handleClose={handleClose} />
+    {/* <SettingsDialog open={open} handleClose={handleClose} /> */}
     </div>
     )
     }

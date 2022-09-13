@@ -39,7 +39,7 @@ import { UserInput } from "src/models/inputs/user-inputs/user.input";
           )
 
           await this.authService.setCurrentRefreshToken(cookies.refreshToken,user.id);
-
+            console.log(await this.userService.user({id:user.id}))
 
           response
           .cookie('accessToken',cookies.accessToken,{

@@ -35,6 +35,11 @@ export class CategoryController {
     return this.categoryService.findPostsWithCategory()
   }
 
+  @Get(':id')
+  async find(@Param('id') id:{categoryId:string},){
+    return this.categoryService.find(id)
+  }
+
   @UseGuards(JwtAuthGuard)
   @Post('/create')
   async create(

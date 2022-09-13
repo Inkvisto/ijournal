@@ -11,17 +11,20 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Image from 'next/image';
 
 import { minioImageLoader } from '../../../utils/constans/minioImageLoader';
-import { Category, CategoryOnPosts } from '../../../utils/api/category/category.types';
+import { Category } from '../../../utils/api/category/category.types';
 import { Button } from '@mui/material';
 import { CategoryApi } from '../../../utils/api/category/category';
+import { $user } from '../../../effector/$user';
+import { useStore } from 'effector-react';
+import { User } from '../../../utils/api/user/user.types';
+import { $categories, getCategories } from '../../../effector/$categories';
 
 
 
 
 
 type SideBarCategories = {
-    getPullClick:(value:boolean)=>void,
-    categories:any
+    getPullClick:(value:boolean)=>void
 }
 
 
@@ -33,13 +36,19 @@ const SideBarCategories = ({getPullClick}:SideBarCategories) => {
     const [text,setText] = React.useState(true)
     const router = useRouter()
 
-    const [categories,setCategories]:any = React.useState()
+    const user = useStore($user)
 
     React.useEffect(()=>{
-     (async()=>{
-        setCategories(await CategoryApi.getCategories(6))
-     })()
-    },[]) 
+        getCategories()
+    },[])
+    const categories = useStore($categories)
+
+
+  
+
+    console.log(user);
+    
+  
 
 
     const change = () => {
@@ -51,14 +60,14 @@ const SideBarCategories = ({getPullClick}:SideBarCategories) => {
     }
    
 
-  console.log(categories);
+
   
 
 
     return(
         <>
         <ul>
-          {categories && categories.map((obj:Category)=>(
+          {{categories:user?.id ? user.categories: categories }.categories?.map((obj:Category)=>(
                     <li key={obj.id}>
                     <Link href={obj.id}>
                        <a>

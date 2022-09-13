@@ -1,5 +1,5 @@
 import { BaseType } from "../../constans/base.type";
-import { Category } from "../category/category.types";
+import { CategoriesOnPosts, Category } from "../category/category.types";
 import { User } from "../user/user.types";
 
 export type Post = {
@@ -9,7 +9,8 @@ export type Post = {
     authorId:string;
     views:number;
     author:User,
-    comments:any
+    comments:any,
+    categories:[{category:Category}]
  } & BaseType
  
  export type PostCreate = {

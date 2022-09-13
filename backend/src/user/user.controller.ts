@@ -25,9 +25,7 @@ export class UserController {
 
 @UseGuards(JwtAuthGuard)
  @Get('/get')
- async getUser(@UserEntity() user:UserModel){
-  
-   
+ async getUser(@UserEntity() user:UserModel){ 
    try{
   return await this.userService.user({id:user.id})
    }catch(e){

@@ -1,7 +1,7 @@
 
 import Skeleton from '@mui/material/Skeleton';
 import Typography, { TypographyProps } from '@mui/material/Typography'
-import styles from './Main.module.scss'
+import styles from './Skeleton.module.scss'
 
 
 const variantsTitles = [
@@ -26,14 +26,15 @@ const variantsTitles = [
 const MainSkeleton = () => {
     return(
         <>
-             <div className={styles.block}  style={{marginTop:'20px'}}>
+             <div className={styles.block}>
           {variantsTitles.map((variant) => (
         <Typography component="div" key={variant} variant={variant}>
            <Skeleton /> 
         </Typography>
       ))}
+          <Skeleton  width={'120px'}/> 
     </div>
-    <Skeleton  width={'250px'} style={{marginLeft:'10px'}}/> 
+
     <ul style={{display:'flex',listStyleType:'none',width:'660px',justifyContent:'space-between'}}>
         {[1,2,3].map((e:any)=>
          <li key={e} className={styles.block} style={{width:'180px'}}>
@@ -48,7 +49,7 @@ const MainSkeleton = () => {
            <Skeleton /> 
         </Typography>
       ))}
-      <Skeleton  variant="rectangular" width={'100%'} height={'300px'}  style={{marginTop:'10px'}}/>
+      <Skeleton  variant="rectangular" width={'100%'} height={'300px'} />
       <Typography marginTop={'20px'} component="div" variant='body1'>
            <Skeleton /> 
         </Typography>

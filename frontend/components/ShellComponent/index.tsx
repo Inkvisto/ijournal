@@ -14,7 +14,7 @@ import { UserApi } from '../../utils/api/user/user'
 
 type MainProps = {
   posts:Post[],
-  loading:any,
+  loading:boolean,
   categories:[Category]
   comments:[Commentary]
 } 
@@ -49,13 +49,13 @@ const ShellPathRender = React.useCallback(() => {
     case '/post/[id]':
      return(
       <div className={styles.postPageMain}>
-      <PostPageMain /> 
+      <PostPageMain  /> 
       </div>
      )
     case '/':
       return(
       <div className={styles.main}   >
-         <Main />
+         <Main  />
       </div>
       )
     default:

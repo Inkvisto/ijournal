@@ -40,6 +40,7 @@ export class UserModel  {
   refresh:string;
   @Field()
   avatar:string;
+  
 
   constructor(user: User) {
     Object.assign(this, user);

@@ -9,7 +9,7 @@ interface AddCommentFormProps {
     
 }
 
-const AddCommentForm:React.FC<AddCommentFormProps> = () => {
+export const AddCommentForm:React.FC<AddCommentFormProps> = () => {
     const[commentField,setCommentField]=useState(false)
     const[sendComment,setSendComment]=useState('')
 
@@ -29,4 +29,4 @@ const AddCommentForm:React.FC<AddCommentFormProps> = () => {
     )
 }
 
-export default AddCommentForm
+

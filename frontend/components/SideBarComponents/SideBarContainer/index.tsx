@@ -11,6 +11,8 @@ import ListIcon from '@mui/icons-material/List';
 import { Button } from "@mui/material";
 import { ThemeProvider } from '@emotion/react';
 import { Category } from '../../../utils/api/category/category.types';
+import { $user } from '../../../effector/$user';
+import { useStore } from 'effector-react';
 
 
 const menu = [
@@ -21,7 +23,7 @@ const menu = [
 ]
 
 
-const SideBar = ({categories}:any) => {
+const SideBar = () => {
 
     const [actionScroll,setActionScroll] = React.useState(false)
     const [scrollStyles,setScrollStyles] = React.useState({})
@@ -47,7 +49,10 @@ const SideBar = ({categories}:any) => {
 
 
     const router = useRouter()
-        
+
+
+
+    
     return(
 
         <div className={styles.container} >
@@ -70,7 +75,7 @@ const SideBar = ({categories}:any) => {
                 ))}
             </ul>
   
-                <SidebarCategories categories={categories} getPullClick={getCategoriesOpenValue} />
+                <SidebarCategories getPullClick={getCategoriesOpenValue} />
             
            
            <SideBarFooter  footerStyles={footerStyles}/>

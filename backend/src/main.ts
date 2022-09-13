@@ -11,7 +11,6 @@ import {
   SwaggerConfig,
 } from './configs/config.interface';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { join } from 'path';
 import { RedisIoAdapter } from './configs/redis.adapter';
 const bodyParser  = require('body-parser');
 

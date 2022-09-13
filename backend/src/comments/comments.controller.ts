@@ -1,4 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Req, Res, UseGuards, CacheInterceptor, UseInterceptors, Inject, CACHE_MANAGER, CacheKey, CacheTTL, Query } from '@nestjs/common';
+import { User } from '@prisma/client';
 import { Cache } from 'cache-manager';
 import { find } from 'rxjs';
 
@@ -40,10 +41,10 @@ findAll(){
 
     @UseGuards(JwtAuthGuard)
     @Post('/create')
-    create(@Body() commentInputData:CommentInput & PostIdArgs,@UserEntity() user:UserIdArgs) {
-
-  
-      return this.commentsService.create(commentInputData,user);
+    create(@Body() commentInputData:CommentInput & PostIdArgs,@UserEntity() user:User) {
+     
+      
+     return this.commentsService.create(commentInputData,user);
     }
 
 

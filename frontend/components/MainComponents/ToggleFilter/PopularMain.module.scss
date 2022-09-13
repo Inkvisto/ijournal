@@ -2,15 +2,14 @@
     display: flex;
     margin: 2%;
     margin-top: 7%;
+    width: 650px;
     justify-content: space-between;
-    width: 850px;
-    
+    padding-right: 20px;
 }
 
 
 .configureButton{
     min-width: 180px;
-
     button{
         &:hover{
             background-color: inherit;

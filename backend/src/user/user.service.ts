@@ -29,6 +29,10 @@ export class UserService {
   async user(userWhereUniqueInput: Prisma.UserWhereUniqueInput) {
     return this.prisma.user.findUnique({
       where: userWhereUniqueInput,
+      include:{
+        categories:true,
+        posts:true
+      }
     });
   }
 

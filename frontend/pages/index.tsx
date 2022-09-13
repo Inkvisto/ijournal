@@ -22,13 +22,15 @@ interface UnionData {
 }
 
 const Home:NextPage<UnionData> = () => {
-  const [loading,setLoading] = React.useState(false);
+  const [loading,setLoading] = React.useState(true);
   const router = useRouter();
   const [titles,setTitles] = React.useState()
 
 React.useEffect(()=>{
  (async()=>{
-  const postTitles:any = await PostApi.findTitles(4,'')
+  const postTitles:any = await PostApi.findTitles(4,'').then(()=>{
+    setLoading(false)
+  })
   getPostsTitles(postTitles)
   setTitles(postTitles)
  })()

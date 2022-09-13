@@ -44,7 +44,7 @@ async getById(id:CommentArgsId){
   }
 
 
-  async create(commentInputData:CommentInput & PostIdArgs,user:UserIdArgs) {
+  async create(commentInputData:CommentInput & PostIdArgs,user:User) {
    
    
     return await this.prisma.comment.create({
@@ -52,7 +52,7 @@ async getById(id:CommentArgsId){
         content:commentInputData.content,
         author:{
           connect:{
-            id:user.userId
+            id:user.id
           }
         },
         posts:{

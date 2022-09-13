@@ -56,7 +56,8 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ EmailRegisterClick, loginClose,
  
   const onSubmit = async (dto: any) => {
 
-    try {      
+    try {     
+      
       loginSuccess(await addUser(dto))
       setErrorMessage('')
         

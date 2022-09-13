@@ -1,4 +1,4 @@
-.block{
+@mixin block {
     background-color: white;
     width: 1000px;
     border-radius: 5px;
@@ -14,9 +14,12 @@
         margin-right: auto;
         width: 640px;
     }
+    
+}
 
-    
-    
+.block{
+    @include block;
+   
 }
 
 .postHeader{
@@ -31,6 +34,9 @@
         display: flex;
         align-items: center;
     }
+    img{
+        border-radius: 6px;
+    }
 }
 
 .postMain{   
@@ -40,8 +46,9 @@
            div{
             margin-bottom: 10px;
             margin-top: 10px; 
-            width: 100%;
-            height: 500px;
+          
+            min-width: 640px;
+            height: 600px;
             position: relative;
            }
          
@@ -54,6 +61,55 @@
     
 }
 
+
+.postFooter{
+    display: flex;
+  
+    justify-content: space-between;
+    a{
+        display: flex;
+        width:40px;
+    justify-content: space-between;
+    align-items: center;
+    }
+    svg{
+        font-size: 20px;
+    }
+ span{
+ 
+    align-items: center;
+     padding:7px 15px;
+    display: flex;
+    justify-content: space-between;
+   width: 250px;
+  
+ }
+ article{
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     width: 120px;
+     data{
+
+         color:#279232;
+         padding:0px 2px;
+     }
+    div:nth-child(1){
+      svg{
+        transform: rotate(0.25turn);
+      }
+     }
+     div:nth-child(3){
+        svg{
+            transform: rotate(0.75turn);
+          }
+     }
+    align-self: center;
+    padding: 0px 20px;
+ }
+ 
+}
+
 .username{
     margin-left: 10px;
 }
@@ -64,7 +120,145 @@
 }
 
 
+.commentsBlock{
+    @include block;
+    margin-top: 40px;
+}
 
+.commentsContainer{
+    margin-left: auto;
+    margin-right: auto;
+    width: 640px;
+}
 
+.commentsHeader{
+    display: flex;
+    padding: 20px;
+    justify-content: space-between;
+    p{
+        font-size: 22px;
+        font-weight: 500;
+    }
+}
 
+.bigCommentsInput{
+  position: relative;
+   div{
+     
+  div{
+    
+    background-color: #f7f7f7;
+    border-radius: 10px;
+    border: 1px solidrgba(0,0,0,.03);
+  }
+   }
+    textarea{
+        width: 600px;
+         
+       padding-bottom: 40px;
+    }
+    svg{
+        cursor: pointer;
+        position: absolute;
+        bottom:15px
+        
+    }
+    button{
+      position: absolute;
+      bottom: 10px;
+      right: 20px;
+      width: 100px;
+    }
+ 
+}
+.smallCommentsInput{
+  position: relative;
+   div{
+     
+  div{
+    
+    background-color: #f7f7f7;
+    border-radius: 10px;
+    border: 1px solidrgba(0,0,0,.03);
+  }
+   }
 
+    svg{
+        cursor: pointer;
+        
+    }
+
+ 
+}
+
+.comment{
+    margin: 20px 0px;
+    small{
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        color: #595959;
+        svg{
+            margin-left: 10px;
+        }
+    }
+    p{
+        margin-top: 20px;
+    }
+    article{
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+       a{
+        display: flex;
+        align-items: center;
+        span{
+            align-self: start;
+            font-weight: 500;
+            margin-left: 10px;
+        }
+       }
+       time{
+           position: absolute;
+        top: 20px;
+        left: 40px;
+        font-size: 12px;
+        color: #595959;
+        cursor: pointer;
+    }
+    article{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 120px;
+        data{
+   
+            color:#279232;
+            padding:0px 2px;
+        }
+       div:nth-child(1){
+         svg{
+           transform: rotate(0.25turn);
+         }
+        }
+        div:nth-child(3){
+           svg{
+               transform: rotate(0.75turn);
+             }
+        }
+       align-self: center;
+       padding: 0px 20px;
+    }
+    }
+}
+
+.userIcon{
+    color: #FFFFFF;
+    background-color: #6573c3;
+    border-radius: 50%;
+    line-height: 30px;
+    text-align: center;
+    width: 30px;
+    height: 30px;
+}

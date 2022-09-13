@@ -1,12 +1,12 @@
 import { BaseType } from "../../constans/base.type";
 import { Post } from "../post/post.types";
 
-export type CategoryOnPosts = {
+export type CategoriesOnPosts = {
     postId:string;
     categoryId:string;
-    post:Post,
-    category:Category
-} & Pick<BaseType,'createdAt'|'updatedAt'>
+    assignedAt: string;
+    assignedBy: string;
+}
 
 export type Category = {
     name:string;

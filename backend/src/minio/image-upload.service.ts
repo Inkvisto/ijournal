@@ -11,6 +11,8 @@ export class FileUploadService {
   async uploadSingle(image: BufferedFile) {
     
     let uploaded_image = await this.minioClientService.upload(image)
+  
+        
     return {
       image_url: uploaded_image.url,
       message: "Successfully uploaded to MinIO S3"

@@ -16,21 +16,21 @@ interface imagePostProps {
 
 const ImagePost = ({data}:imagePostProps) => {
 
-    
     const url = data.file.url
     const src = url.substring(url.lastIndexOf("/")+1,url.length)
 
-
-   
     return(
        <figure >
          <div className={styles.imageContainer}>
             <Image loader={minioImageLoader} 
     layout="fill" src={src} alt="post_image_error" objectFit="cover" />
-            </div>
-           <figcaption>
-            {data.caption}
-           </figcaption>
+            </div>{
+                data.caption &&  
+                <figcaption>
+                {data.caption}
+               </figcaption>
+            }
+         
        </figure>
     )
 }

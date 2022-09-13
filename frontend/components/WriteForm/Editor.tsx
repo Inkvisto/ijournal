@@ -49,7 +49,8 @@ export const Editor:React.FC<EditorProps> = ({onChange}) => {
               return {
                 success: 1,
                 file: {
-                  url:`http://${image_url}`
+                  url:`http://${image_url}`,
+                  
                   // any other image data you want to store, such as width, height, color, extension, etc
                 }
               };

@@ -80,8 +80,9 @@ const Header = ({menuClick}:HeaderProps) => {
     setProgressLoad(100)
   },[])
 
-const loginSuccess = ((user:User)=>{
-  getUser(user)
+const loginSuccess = (async(user:User)=>{
+
+  getUser( await UserApi.getUser())
   setLoginValue(<ProfileMenu user={user} logOut={logout} />)
   handleLoginClose()
  })
